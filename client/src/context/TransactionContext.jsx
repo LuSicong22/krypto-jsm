@@ -18,23 +18,77 @@ const getEthereumContract = () => {
   console.log({
     provider,
     signer,
+    transactionContract,
   });
 };
 
 export const TransactionsProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [formData, setFormData] = useState({
+    addressTo: "",
+    amount: "",
+    keyword: "",
+    message: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = () => {};
+  const handleChange = (e, name) => {
+    setFormData((prevstate) => ({ ...prevstate, [name]: e.target.value }));
+  };
 
-  const connectWallet = async () => {};
+  const checkIfWalletIsConnected = async () => {
+    try {
+      if (!ethereum) return alert("Please install MetaMask!");
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+      if (accounts.length) {
+        setCurrentAccount(accounts[0]);
+      } else {
+        console.log("No accounts found");
+      }
+      console.log(accounts);
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object.");
+    }
+  };
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
+
+  const connectWallet = async () => {
+    try {
+      if (!ethereum) return alert("Please install MetaMask!");
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object.");
+    }
+  };
+
+  const sendTransaction = async () => {
+    try {
+      if (!ethereum) return alert("Please install MetaMask!");
+      const { addressTo, amount, keyword, message } = formData;
+      getEthereumContract();
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object.");
+    }
+  };
 
   return (
     <TransactionContext.Provider
       value={{
         connectWallet,
         currentAccount,
+        formData,
+        setFormData,
         handleChange,
+        sendTransaction,
         isLoading,
       }}
     >
