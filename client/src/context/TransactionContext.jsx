@@ -5,6 +5,9 @@ export const TransactionContext = React.createContext();
 
 export const TransactionsProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = () => {};
 
   const connectWallet = async () => {};
 
@@ -13,6 +16,8 @@ export const TransactionsProvider = ({ children }) => {
       value={{
         connectWallet,
         currentAccount,
+        handleChange,
+        isLoading,
       }}
     >
       {children}
