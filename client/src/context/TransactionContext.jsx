@@ -102,11 +102,6 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    checkIfWalletIsConnected();
-    checkIfTransactionsExists();
-  }, [transactionCount]);
-
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert("Please install MetaMask!");
@@ -155,6 +150,11 @@ export const TransactionsProvider = ({ children }) => {
       throw new Error("No ethereum object.");
     }
   };
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+    checkIfTransactionsExists();
+  }, [transactionCount]);
 
   return (
     <TransactionContext.Provider
