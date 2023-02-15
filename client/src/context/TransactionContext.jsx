@@ -30,6 +30,7 @@ export const TransactionsProvider = ({ children }) => {
   const [transactionCount, setTransactionCount] = useState(
     localStorage.getItem("transactionCount")
   );
+  const [transactions, setTransactions] = useState([]);
 
   const handleChange = (e, name) => {
     setFormData((prevstate) => ({ ...prevstate, [name]: e.target.value }));
@@ -109,6 +110,7 @@ export const TransactionsProvider = ({ children }) => {
       value={{
         connectWallet,
         currentAccount,
+        transactions,
         formData,
         setFormData,
         handleChange,
